@@ -1,5 +1,5 @@
-CREATE DATABASE cemiterio;
-USE cemiterio;
+CREATE DATABASE SejaBemVindo;
+USE SejaBemVindo;
 
 CREATE TABLE Cemiterio (
     idCemiterio INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -25,7 +25,7 @@ CREATE TABLE Proprietario (
 
 CREATE TABLE Defunto (
     idDefunto INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(45) NOT NULL,
+    nomeDefunto VARCHAR(45) NOT NULL,
     dataObito DATE NOT NULL,
     dataNascimento DATE NOT NULL,
     parentescoPro VARCHAR(30) NOT NULL,
@@ -67,6 +67,7 @@ CREATE TABLE Jazigo (
 
 
 
+-- Cadastrando informações
 
 INSERT INTO Cemiterio (nomeCemiterio) VALUES ('Seja Bem-vindo');
 
@@ -80,10 +81,10 @@ INSERT INTO Proprietario (nome, cpf) VALUES ('Naruto Uzumaki', '432.532.210-00')
 INSERT INTO Proprietario (nome, cpf) VALUES ('Goku Son', '987.654.321-00');
 
 
-INSERT INTO Defunto (nome, dataObito, dataNascimento, parentescoPro, idProprietario) VALUES ('Carlos Silva', '2022-01-20', '1986-05-01', 'primo primeiro grau', 1);
-INSERT INTO Defunto (nome, dataObito, dataNascimento, parentescoPro, idProprietario) VALUES ('Joana Souza', '2024-01-24', '1960-10-15', 'mãe', 2);
-INSERT INTO Defunto (nome, dataObito, dataNascimento, parentescoPro, idProprietario) VALUES ('Kushina Uzumaki', '2023-09-12', '1980-12-31', 'mãe', 3);
-INSERT INTO Defunto (nome, dataObito, dataNascimento, parentescoPro, idProprietario) VALUES ('Bulma Son', '2021-03-08', '1979-06-25', 'filha', 4);
+INSERT INTO Defunto (nomeDefunto, dataObito, dataNascimento, parentescoPro, idProprietario) VALUES ('Carlos Silva', '2022-01-20', '1986-05-01', 'primo primeiro grau', 1);
+INSERT INTO Defunto (nomeDefunto, dataObito, dataNascimento, parentescoPro, idProprietario) VALUES ('Joana Souza', '2024-01-24', '1960-10-15', 'mãe', 2);
+INSERT INTO Defunto (nomeDefunto, dataObito, dataNascimento, parentescoPro, idProprietario) VALUES ('Kushina Uzumaki', '2023-09-12', '1980-12-31', 'mãe', 3);
+INSERT INTO Defunto (nomeDefunto, dataObito, dataNascimento, parentescoPro, idProprietario) VALUES ('Bulma Son', '2021-03-08', '1979-06-25', 'filha', 4);
 
 INSERT INTO Lote (tamanhoLote, dataCompra, statusCompra, idQuadra, idProprietario) VALUES (100, '2020-12-12', 'em pagamento', 1, 1);
 INSERT INTO Lote (tamanhoLote, dataCompra, statusCompra, idQuadra, idProprietario) VALUES (200, '2020-11-11', 'pago', 5, 2);
@@ -110,24 +111,27 @@ UPDATE Proprietario SET nome = 'João da Silva' WHERE idProprietario = 1;
 DELETE FROM Defunto WHERE idDefunto = 4;
 
 
+
+-- Atividade
+
+
 -- Questão 1
 
 SELECT Quadra.idQuadra, Quadra.tamanhoQuadra, Jazigo.idJazigo, Jazigo.estadoJazigo FROM Quadra, Jazigo WHERE Quadra.idQuadra>0 AND Jazigo.estadoJazigo='ocupado';
 
--- Questão 2
+-- Questão 2 (pode dar erro se forem realizados o UPDATE e o DELETE anteriores à questão 1)
 
-SELECT Proprietario.nome, Lote.idLote, Lote.tamanhoLote, Lote.dataCompra, Lote.statusCompra FROM Proprietario, Lote WHERE Proprietario.nome='Maria Souza';
-SELECT Proprietario.nome, Lote.idLote, Lote.tamanhoLote, Lote.dataCompra, Lote.statusCompra FROM Proprietario, Lote WHERE Proprietario.nome='Naruto Uzumaki';
-SELECT Proprietario.nome, Lote.idLote, Lote.tamanhoLote, Lote.dataCompra, Lote.statusCompra FROM Proprietario, Lote WHERE Proprietario.nome='Goku Son';
+SELECT Proprietario.nome, Lote.idLote, Lote.tamanhoLote, Lote.dataCompra, Lote.statusCompra FROM Proprietario, Lote WHERE Proprietario.nome='Maria Souza' AND Lote.idProprietario=2;
+SELECT Proprietario.nome, Lote.idLote, Lote.tamanhoLote, Lote.dataCompra, Lote.statusCompra FROM Proprietario, Lote WHERE Proprietario.nome='Naruto Uzumaki' AND Lote.idProprietario=3;
+SELECT Proprietario.nome, Lote.idLote, Lote.tamanhoLote, Lote.dataCompra, Lote.statusCompra FROM Proprietario, Lote WHERE Proprietario.nome='Goku Son' AND Lote.idProprietario=4;
 
 -- Questão 3
 
-SELECT Jazigo.idJazigo, Jazigo.estadoJazigo, Defunto.nome, Defunto.dataObito, Defunto.dataNascimento, Defunto.parentescoPro FROM Jazigo, Defunto WHERE Jazigo.idProprietario='Maria Souza';
+SELECT Jazigo.idJazigo, Jazigo.estadoJazigo, Defunto.nomeDefunto, Defunto.dataObito, Defunto.dataNascimento, Defunto.parentescoPro FROM Jazigo, Defunto WHERE Jazigo.idProprietario='2';
 
 -- Questão 4
 
-SELECT Proprietario.idProprietario, Proprietario.nome, Jazigo.idJazigo, Jazigo.estadoJazigo FROM Proprietario, Jazigo WHERE Proprietario.nome='Maria Souza' AND Jazigo.estadoJazigo='desocupado';
-SELECT Proprietario.idProprietario, Proprietario.nome, Jazigo.idJazigo, Jazigo.estadoJazigo FROM Proprietario, Jazigo WHERE Proprietario.nome='Naruto Uzumaki' AND Jazigo.estadoJazigo='desocupado';
-SELECT Proprietario.idProprietario, Proprietario.nome, Jazigo.idJazigo, Jazigo.estadoJazigo FROM Proprietario, Jazigo WHERE Proprietario.nome='Goku Son' AND Jazigo.estadoJazigo='desocupado';
-
+SELECT Proprietario.idProprietario, Proprietario.nome, Jazigo.idJazigo, Jazigo.estadoJazigo FROM Proprietario, Jazigo WHERE Proprietario.nome='Maria Souza' AND Jazigo.idProprietario=2 AND Jazigo.estadoJazigo='desocupado';
+SELECT Proprietario.idProprietario, Proprietario.nome, Jazigo.idJazigo, Jazigo.estadoJazigo FROM Proprietario, Jazigo WHERE Proprietario.nome='Naruto Uzumaki' AND Jazigo.idProprietario=3 AND Jazigo.estadoJazigo='desocupado';
+SELECT Proprietario.idProprietario, Proprietario.nome, Jazigo.idJazigo, Jazigo.estadoJazigo FROM Proprietario, Jazigo WHERE Proprietario.nome='Goku Son' AND Jazigo.idProprietario=4 AND Jazigo.estadoJazigo='desocupado';
 
